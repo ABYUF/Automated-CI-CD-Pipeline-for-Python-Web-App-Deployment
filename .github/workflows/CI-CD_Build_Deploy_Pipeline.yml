@@ -1,4 +1,4 @@
-name: Automated-CI/CD-Pipeline-for-Python-Web-App-Deployment
+name: Automated-CI-CD-Pipeline-for-Python-Web-App-Deployment
 
 on:
   push:
@@ -61,7 +61,7 @@ jobs:
           port: 22
           debug: true
           script: |
-            REPO_PATH="/var/www/helloapp/Automated-CI/CD-Pipeline-for-Python-Web-App-Deployment"
+            REPO_PATH=/var/www/helloapp/Automated-CI-CD-Pipeline-for-Python-Web-App-Deployment
             VENV_PATH=/home/ec2-user/myvenv1
             SERVICE_NAME=helloapp.service
             SERVICE_PATH=/etc/systemd/system/$SERVICE_NAME
@@ -73,8 +73,8 @@ jobs:
 
             # Clone or pull repo
             if [ ! -d $REPO_PATH ]; then
-              sudo mkdir -p /var/www/helloapp
-              sudo chown ec2-user:ec2-user /var/www/helloapp
+              sudo mkdir -p $REPO_PATH
+              sudo chown ec2-user:ec2-user $REPO_PATH
               git clone https://github.com/ABYUF/Automated-CI-CD-Pipeline-for-Python-Web-App-Deployment.git $REPO_PATH
             fi
             cd $REPO_PATH
@@ -135,9 +135,6 @@ jobs:
 
             sudo nginx -t
             sudo systemctl reload nginx
-
-            # Restart Gunicorn service
-            sudo systemctl restart $SERVICE_NAME
 
             # Show last 20 lines of service log for debugging
             echo "===== Last 20 lines of helloapp.service ====="
